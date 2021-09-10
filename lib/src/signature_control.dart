@@ -1030,7 +1030,7 @@ class HandSignatureControl extends ChangeNotifier {
     if (background != null) {
       canvas.drawColor(background, BlendMode.src);
     }
-    painter.paint(canvas, Size(width * scale, height * scale));
+    painter.paint(canvas, Size(width.toDouble(), height.toDouble()));
 
     return recorder.endRecording();
   }
