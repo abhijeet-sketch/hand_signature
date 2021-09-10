@@ -1023,7 +1023,7 @@ class HandSignatureControl extends ChangeNotifier {
       recorder,
       Rect.fromPoints(
         Offset(0.0, 0.0),
-        Offset(width * scale, height * scale),
+        Offset(width.toDouble(), height.toDouble()),
       ),
     );
     canvas.scale(scale);
