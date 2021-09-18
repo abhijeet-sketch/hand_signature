@@ -346,8 +346,8 @@ class CubicArc extends Offset {
 
   /// Arc path.
   Path get path => Path()
-    ..moveTo(dx, dy)
-    ..arcToPoint(location, rotation: _pi2);
+    ..moveTo(dx * 4, dy * 4)
+    ..arcToPoint(location.scale(4, 4), rotation: _pi2);
 
   /// Rectangle of start and end point.
   Rect get rect => Rect.fromPoints(this, location);
@@ -658,8 +658,8 @@ class HandSignatureControl extends ChangeNotifier {
   /// List of currently completed lines.
   List<CubicPath> get paths => _paths;
 
-  int width = 512;
-  int height = 256;
+  double width = 512;
+  double height = 256;
 
   /// Lazy list of all control points - raw data.
   List<List<Offset>> get _offsets {
@@ -997,7 +997,7 @@ class HandSignatureControl extends ChangeNotifier {
 
   /// Exports data to [Picture].
   Picture toPicture({double scale = 1, Color? color, Color? background, double? size, double? maxSize, double? border}) {
-    final data = PathUtil.fill(_arcs, Rect.fromLTRB(0.0, 0.0, width.toDouble(), height.toDouble()), border: border);
+    final data = PathUtil.fill(_arcs, Rect.fromLTRB(0.0, 0.0, width * scale, height * scale), border: border);
     final path = CubicPath().._arcs.addAll(data);
 
     params ??= SignaturePaintParams(

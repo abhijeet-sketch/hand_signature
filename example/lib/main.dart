@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
-
+import 'package:flutter_file_dialog/flutter_file_dialog.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hand_signature/signature.dart';
+import 'package:path/path.dart';
 
 import 'scroll_test.dart';
 
@@ -81,6 +84,7 @@ class MyApp extends StatelessWidget {
                                 );
 
                                 rawImage.value = await control.toImage(
+                                  scale: 4,
                                   color: Colors.blueAccent,
                                   background: Colors.greenAccent,
                                 );
@@ -129,9 +133,19 @@ class MyApp extends StatelessWidget {
                 ),
               );
             } else {
-              return Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Image.memory(data.buffer.asUint8List()),
+              return InkWell(
+                onTap: () async {
+                  Directory documentsDirectory = await getApplicationDocumentsDirectory();
+                  String path = join(documentsDirectory.path, "sig.png");
+                  File file = File(path);
+                  await file.writeAsBytes(data.buffer.asUint8List().buffer.asInt8List());
+
+                  await FlutterFileDialog.saveFile(params: SaveFileDialogParams(sourceFilePath: file.path));
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Image.memory(data.buffer.asUint8List()),
+                ),
               );
             }
           },
